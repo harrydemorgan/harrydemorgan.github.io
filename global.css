@@ -1,0 +1,88 @@
+body {
+    font-family:sans-serif;
+    background-color: #f5f5f5;
+    color: black;
+    transition: background-color 1s;
+}
+
+.dark-mode {
+    background-color: #101010;
+    color: white;
+    transition: background-color 1s;
+}
+
+p {
+    display: inline-block;
+    color: #6a6c6e;
+}
+
+a {
+    text-decoration: none;
+    color: #6a6c6e;
+}
+
+button {
+    transform: translateY(-23%);
+    padding: 0;
+    border: none;
+    background: none;
+}
+
+h1, p {
+    margin: 0;
+}
+
+svg {
+    vertical-align: middle;
+    height: 24px;
+    width: 24px;
+    fill: #6a6c6e;
+    margin-right:10px;
+    margin-top:10px;
+    margin-bottom:10px;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+    display: block;
+  }
+
+.header {
+    padding-top: 1%;
+    padding-left: 25%;
+    padding-right: 25%;
+}
+
+.about-me {
+    width: 30%;
+    margin: auto;
+}
+
+.links {
+    margin: 0;
+}
+
+.links:hover li {
+    opacity: 0.5;
+}
+
+.links li {
+    transition: opacity 0.3s ease;
+}
+
+.links li:hover {
+    opacity: 1;
+}
+
+#toggle-dark {
+    float: right;
+}
+
+#moon:hover {
+    fill: black;
+}
+
+#sun:hover {
+    fill: white;
+}
