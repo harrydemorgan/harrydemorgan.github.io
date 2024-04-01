@@ -72,6 +72,9 @@ ul {
 .about-me {
     width: 30%;
     margin: auto;
+    opacity: 0;
+    transform: translateY(-20px);
+    animation: fadeInDown 1s forwards;
 }
 
 .links {
@@ -89,3 +92,14 @@ ul {
 #sun:hover {
     fill: white;
 }
+
+@keyframes fadeInDown {
+    from {
+      opacity: 0;
+      transform: translateY(-50px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
