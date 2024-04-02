@@ -74,7 +74,7 @@ ul {
     padding-top: 1%;
     padding-left: 25%;
     padding-right: 25%;
-    padding-bottom: 2%;
+    padding-bottom: 1%;
 }
 
 .about-me {
@@ -102,18 +102,14 @@ ul {
     fill: white;
 }
 
-#moon {
-    animation: fadeInDown 0.3s forwards;
-}
-
-#sun {
+#moon, #sun {
     animation: fadeInDown 0.3s forwards;
 }
 
 @keyframes fadeInDown {
     from {
       opacity: 0;
-      transform: translateY(-50px);
+      transform: translateY(-30px);
     }
     to {
       opacity: 1;
