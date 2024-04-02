@@ -2,18 +2,28 @@ body {
     font-family:sans-serif;
     background-color: #f5f5f5;
     color: black;
-    transition: background-color 1s;
+    transition: background-color 0.2s;
 }
 
 .dark-mode {
     background-color: #101010;
     color: white;
-    transition: background-color 1s;
+    transition: background-color 0.2s;
 }
 
 p {
     display: inline-block;
     color: #6a6c6e;
+    font-size: 1vw;
+}
+
+h1, p {
+    margin: 0;
+}
+
+h1 {
+    padding-bottom: 1%;
+    font-size: 2vw;
 }
 
 a {
@@ -36,14 +46,6 @@ button {
     background: none;
 }
 
-h1, p {
-    margin: 0;
-}
-
-h1 {
-    padding-bottom: 1%;
-}
-
 svg {
     vertical-align: middle;
     height: 24px;
@@ -59,6 +61,12 @@ ul {
     padding: 0;
     display: block;
   }
+
+@media screen and (max-width: 800px) {
+    .header, .about-me {
+      width: 100%;
+    }
+}
 
 .header {
     margin: auto;
@@ -92,6 +100,14 @@ ul {
 
 #sun:hover {
     fill: white;
+}
+
+#moon {
+    animation: fadeInDown 0.3s forwards;
+}
+
+#sun {
+    animation: fadeInDown 0.3s forwards;
 }
 
 @keyframes fadeInDown {
