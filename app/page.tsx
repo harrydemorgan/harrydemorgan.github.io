@@ -34,8 +34,8 @@ export default function Home() {
     },
     {
       id: 3,
-      title: "Heart Rate",
-      value: "76 bpm",
+      title: "Resting Heart Rate",
+      value: biomarkersData.metrics.restingHeartRate + " bpm",
       icon: Heart,
       color: "rose",
       colorClasses: {
