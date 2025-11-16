@@ -1,0 +1,60 @@
+name: Fetch Daily Biomarkers
+
+on:
+  schedule:
+    # Run at 00:01 UTC daily
+    - cron: '1 0 * * *'
+  # Allow manual trigger for testing
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  fetch-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Fetch biomarkers data
+        run: |
+          curl -X GET https://us-central1-harrymorganhealth.cloudfunctions.net/get_previous_day_biomarkers \
+            -o data/biomarkers.json \
+            -H "Accept: application/json" \
+            -w "\nHTTP Status: %{http_code}\n"
+          
+          # Verify the file was created and contains valid JSON
+          if [ -f data/biomarkers.json ]; then
+            echo "File created successfully"
+            cat data/biomarkers.json
+            # Validate JSON
+            if ! jq empty data/biomarkers.json 2>/dev/null; then
+              echo "Error: Invalid JSON received"
+              exit 1
+            fi
+          else
+            echo "Error: File not created"
+            exit 1
+          fi
+
+      - name: Commit and push changes
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add data/biomarkers.json
+          
+          # Only commit if there are changes
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "Update biomarkers data for $(date -u +%Y-%m-%d)"
+            git push
+          fi
+
+      - name: Trigger deployment
+        run: |
+          # The push to main will automatically trigger the deploy.yml workflow
+          echo "Changes pushed to main branch, deployment workflow will be triggered automatically"

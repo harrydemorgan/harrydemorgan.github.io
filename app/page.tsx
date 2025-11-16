@@ -1,14 +1,17 @@
 import { Bed, Footprints, Heart, Activity } from "lucide-react";
+import biomarkersData from "@/data/biomarkers.json";
 
 export default function Home() {
+  // Format the steps value with commas
+  const formatNumber = (num: number) => {
+    return num.toLocaleString();
+  };
+
   const metrics = [
     {
       id: 1,
       title: "Sleep",
       value: "7h 45m",
-      change: "+20.1%",
-      changeType: "positive",
-      description: "from last week",
       icon: Bed,
       color: "indigo",
       colorClasses: {
@@ -20,10 +23,7 @@ export default function Home() {
     {
       id: 2,
       title: "Steps",
-      value: "10,523",
-      change: "+23.5%",
-      changeType: "positive",
-      description: "from last week",
+      value: formatNumber(biomarkersData.metrics.steps),
       icon: Footprints,
       color: "blue",
       colorClasses: {
@@ -36,9 +36,6 @@ export default function Home() {
       id: 3,
       title: "Heart Rate",
       value: "76 bpm",
-      change: "-2.4%",
-      changeType: "positive",
-      description: "from last week",
       icon: Heart,
       color: "rose",
       colorClasses: {
@@ -51,9 +48,6 @@ export default function Home() {
       id: 4,
       title: "HRV",
       value: "52 ms",
-      change: "-3.2%",
-      changeType: "positive",
-      description: "from last week",
       icon: Activity,
       color: "purple",
       colorClasses: {
@@ -74,6 +68,13 @@ export default function Home() {
           </h1>
           <p className="mt-4 text-lg text-zinc-600 dark:text-zinc-400">
             My Biomarkers
+          </p>
+          <p className="mt-2 text-sm text-zinc-500 dark:text-zinc-500">
+            Last updated: {new Date(biomarkersData.date).toLocaleDateString('en-US', { 
+              year: 'numeric', 
+              month: 'long', 
+              day: 'numeric' 
+            })}
           </p>
         </div>
 
@@ -101,22 +102,8 @@ export default function Home() {
                   <div className="mb-2 text-sm font-medium text-zinc-500 dark:text-zinc-400">
                     {metric.title}
                   </div>
-                  <div className="mb-4 text-4xl font-bold tracking-tight text-zinc-900 dark:text-zinc-50">
+                  <div className="text-4xl font-bold tracking-tight text-zinc-900 dark:text-zinc-50">
                     {metric.value}
-                  </div>
-                  <div className="flex items-center gap-2 text-sm">
-                    <span
-                      className={`inline-flex items-center rounded-full px-2.5 py-0.5 font-semibold ${
-                        metric.changeType === "positive"
-                          ? "bg-emerald-100 text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-400"
-                          : "bg-rose-100 text-rose-800 dark:bg-rose-900/30 dark:text-rose-400"
-                      }`}
-                    >
-                      {metric.change}
-                    </span>
-                    <span className="text-zinc-500 dark:text-zinc-400">
-                      {metric.description}
-                    </span>
                   </div>
                 </div>
               </div>
