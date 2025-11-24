@@ -1,17 +1,33 @@
 import { Bed, Footprints, Heart, Activity } from "lucide-react";
 import biomarkersData from "@/data/biomarkers.json";
 
+type BiomarkersData = {
+  date: string;
+  metrics?: {
+    sleep?: string;
+    steps?: number;
+    restingHeartRate?: number;
+    hrv?: number;
+  };
+  error?: string;
+};
+
 export default function Home() {
   // Format the steps value with commas
   const formatNumber = (num: number) => {
     return num.toLocaleString();
   };
 
-  const metrics = [
+  const data = biomarkersData as BiomarkersData;
+
+  // Check if metrics data exists
+  const hasMetrics = data.metrics && Object.keys(data.metrics).length > 0;
+
+  const allMetrics = [
     {
       id: 1,
       title: "Sleep",
-      value: "7h 45m",
+      value: data.metrics?.sleep,
       icon: Bed,
       color: "indigo",
       colorClasses: {
@@ -23,7 +39,7 @@ export default function Home() {
     {
       id: 2,
       title: "Steps",
-      value: formatNumber(biomarkersData.metrics.steps),
+      value: data.metrics?.steps ? formatNumber(data.metrics.steps) : null,
       icon: Footprints,
       color: "blue",
       colorClasses: {
@@ -35,7 +51,7 @@ export default function Home() {
     {
       id: 3,
       title: "Resting Heart Rate",
-      value: biomarkersData.metrics.restingHeartRate + " bpm",
+      value: data.metrics?.restingHeartRate ? data.metrics.restingHeartRate + " bpm" : null,
       icon: Heart,
       color: "rose",
       colorClasses: {
@@ -47,7 +63,7 @@ export default function Home() {
     {
       id: 4,
       title: "HRV",
-      value: "52 ms",
+      value: data.metrics?.hrv ? data.metrics.hrv + " ms" : null,
       icon: Activity,
       color: "purple",
       colorClasses: {
@@ -57,6 +73,9 @@ export default function Home() {
       },
     },
   ];
+
+  // Filter out metrics that don't have values
+  const metrics = allMetrics.filter(metric => metric.value !== null && metric.value !== undefined);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-zinc-50 to-stone-50 dark:from-zinc-950 dark:via-black dark:to-zinc-900">
@@ -70,7 +89,7 @@ export default function Home() {
             My Biomarkers
           </p>
           <p className="mt-2 text-sm text-zinc-500 dark:text-zinc-500">
-            Last updated: {new Date(biomarkersData.date).toLocaleDateString('en-US', { 
+            Last updated: {new Date(data.date).toLocaleDateString('en-US', { 
               year: 'numeric', 
               month: 'long', 
               day: 'numeric' 
@@ -78,8 +97,18 @@ export default function Home() {
           </p>
         </div>
 
+        {/* No Data Message */}
+        {metrics.length === 0 && (
+          <div className="rounded-2xl border border-zinc-200/80 bg-white p-12 text-center shadow-sm dark:border-zinc-800/80 dark:bg-zinc-900/50">
+            <p className="text-lg text-zinc-600 dark:text-zinc-400">
+              No data for yesterday. Tell me to charge my ring!
+            </p>
+          </div>
+        )}
+
         {/* Metrics Grid */}
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        {metrics.length > 0 && (
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {metrics.map((metric) => {
             const Icon = metric.icon;
             return (
@@ -110,6 +139,7 @@ export default function Home() {
             );
           })}
         </div>
+        )}
       </div>
     </div>
   );
